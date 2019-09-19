@@ -30,10 +30,9 @@ public class CommentService {
 		return null;
 	}
 	
-	public Comment save(Long isbn, String text) {
+	public Comment save(String text) {
 		Comment comment = new Comment();
 		comment.setId(commentId++);
-		comment.setIsbn(isbn);
 		comment.setText(text);
 		comments.add(comment);
 		return comment;

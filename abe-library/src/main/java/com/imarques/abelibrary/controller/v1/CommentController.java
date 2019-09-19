@@ -42,7 +42,7 @@ public class CommentController {
 	public Comment postComment(
 			@ApiParam(required = true, value = "Código ISBN") @PathVariable("isbn") Long isbn, 
 			@ApiParam(required = true, value = "Commentário") @RequestBody(required = true) String text) {
-		Comment result = commentService.save(isbn, text);
+		Comment result = commentService.save(text);
 		Book book = bookService.getBook(isbn);
 		book.getComments().add(result.getId());
 		return result;
