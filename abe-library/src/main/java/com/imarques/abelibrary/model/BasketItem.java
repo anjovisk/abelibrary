@@ -2,7 +2,7 @@ package com.imarques.abelibrary.model;
 
 public class BasketItem {
 	private String isbn;
-	private int total;
+	private int total = 0;
 	public String getIsbn() {
 		return isbn;
 	}
