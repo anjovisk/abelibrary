@@ -55,7 +55,7 @@ public class BookController {
 	}
 	
 	@ApiOperation(value = "Altera um dos livros do acervo")
-	@RequestMapping(path="/{isbn}", method=RequestMethod.PUT)
+	@RequestMapping(method=RequestMethod.PUT)
 	public void putBook(
 			@ApiParam(required = true, value = "Dados cadastrais para atualização do livro") @RequestBody Book book) {
 		bookService.edit(book);

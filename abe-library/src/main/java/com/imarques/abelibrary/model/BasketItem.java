@@ -1,12 +1,12 @@
 package com.imarques.abelibrary.model;
 
 public class BasketItem {
-	private String isbn;
+	private Long isbn;
 	private int total = 0;
-	public String getIsbn() {
+	public Long getIsbn() {
 		return isbn;
 	}
-	public void setIsbn(String isbn) {
+	public void setIsbn(Long isbn) {
 		this.isbn = isbn;
 	}
 	public int getTotal() {

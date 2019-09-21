@@ -3,6 +3,7 @@ package com.imarques.abelibrary.service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -50,6 +51,11 @@ public class BookService {
 			}
 		}
 		return null;
+	}
+	
+	public List<Book> getBooks(List<Long> isbns) {
+		List<Book> result = isbns.stream().map(isbn -> getBook(isbn)).collect(Collectors.toList());
+		return result;
 	}
 	
 	public Book save(Book book) {

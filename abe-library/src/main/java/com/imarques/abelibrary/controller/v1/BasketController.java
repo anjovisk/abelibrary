@@ -26,7 +26,7 @@ public class BasketController {
 	@RequestMapping(method=RequestMethod.GET)
 	public Basket getBasket(
 			@ApiParam(required = true, value = "Código do usuário") @PathVariable("id") Long id) {
-		Basket result = basketService.getBasket(id);
+		Basket result = basketService.getPendingBasket(id);
 		return result;
 	}
 	
@@ -35,7 +35,7 @@ public class BasketController {
 	public BasketItem addItem(
 			@ApiParam(required = true, value = "Código do usuário") @PathVariable("id") Long id, 
 			@ApiParam(required = true, value = "isbn") @RequestBody(required = true) String isbn) {
-		BasketItem result = basketService.addItem(id, isbn);
+		BasketItem result = basketService.addItem(id, Long.valueOf(isbn));
 		return result;
 	}
 	
@@ -44,6 +44,6 @@ public class BasketController {
 	public void deleteItem(
 			@ApiParam(required = true, value = "Código do usuário") @PathVariable("id") Long id, 
 			@ApiParam(required = true, value = "isbn") @RequestBody(required = true) String isbn) {
-		basketService.delete(id, isbn);
+		basketService.delete(id, Long.valueOf(isbn));
 	}
 }

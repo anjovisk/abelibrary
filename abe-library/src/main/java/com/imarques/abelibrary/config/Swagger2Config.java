@@ -24,7 +24,9 @@ public class Swagger2Config {
 				.tags(
 						new Tag("Books", "API REST para o acervo de livros"),
 						new Tag("Comments", "API REST para os comentários dos livros"),
-						new Tag("Basket", "API REST para o carrinho de compra de livros"));
+						new Tag("Basket", "API REST para o carrinho de compra de livros"),
+						new Tag("Payment", "API REST para pagamentos"),
+						new Tag("Delivery", "API REST para acompanhamento das entregas"));
 	}
 	
 	private ApiInfo apiInfo() {
