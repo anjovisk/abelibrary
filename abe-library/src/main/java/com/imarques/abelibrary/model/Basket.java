@@ -18,7 +18,7 @@ public class Basket {
 	
 	private Long id;
 	private Long userId;
-	@ApiModelProperty(dataType = "com.imarques.abelibrary.model.Basket.BasketStatus", example = "PAYED")
+	@ApiModelProperty(example = "PAYED")
 	private BasketStatus status;
 	private List<BasketItem> items = new ArrayList<>();
 	

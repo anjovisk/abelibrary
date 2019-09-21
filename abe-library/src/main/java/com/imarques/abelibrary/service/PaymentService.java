@@ -25,6 +25,8 @@ public class PaymentService {
 	private BasketService basketService;
 	@Autowired
 	private BookService bookService;
+	@Autowired
+	private OrderService orderService;
 	
 	public PaymentSummary calculate(Long userId) {
 		PaymentSummary result = new PaymentSummary();
@@ -46,7 +48,7 @@ public class PaymentService {
 		//TODO - Utilizar messages resource
 		payment.setDetails("Pagamento efetuado com sucesso");
 		payments.add(payment);
-		//TODO - Gerar pedido
+		orderService.create(basket, paymentData.getRecipient(), paymentData.getDeliveryAddress());
 		return payment;
 	}
 	

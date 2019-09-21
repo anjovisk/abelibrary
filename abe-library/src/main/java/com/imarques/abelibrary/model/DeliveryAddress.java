@@ -1,7 +1,6 @@
 package com.imarques.abelibrary.model;
 
-public class OrderDeliveryAddress {
-	private Long id;
+public class DeliveryAddress {
 	private String street;
 	private String number;
 	private String complement;
@@ -12,12 +11,6 @@ public class OrderDeliveryAddress {
 	}
 	public void setCity(String city) {
 		this.city = city;
-	}
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
 	}
 	public String getStreet() {
 		return street;

@@ -22,7 +22,7 @@ public class Payment {
 	private PaymentData paymentData;
 	private BigDecimal value;
 	private Long basketId;
-	@ApiModelProperty(dataType = "com.imarques.abelibrary.model.Paument.PaymentStatus", example = "SUCCESS")
+	@ApiModelProperty(example = "SUCCESS")
 	private PaymentStatus status;
 	private String details;
 	

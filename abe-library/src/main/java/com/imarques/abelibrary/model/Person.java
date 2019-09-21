@@ -1,7 +1,6 @@
 package com.imarques.abelibrary.model;
 
-public class User {
-	private Long id;
+public class Person {
 	private String name;
 	private String documentNumber;
 	public String getDocumentNumber() {
@@ -16,12 +15,6 @@ public class User {
 	}
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
 	}
 	public String getName() {
 		return name;

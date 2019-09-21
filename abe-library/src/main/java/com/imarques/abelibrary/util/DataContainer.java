@@ -3,11 +3,11 @@ package com.imarques.abelibrary.util;
 import java.util.List;
 
 public class DataContainer<T> {
-	public DataContainer(int limit, int offset, int count, List<T> data) {
+	public DataContainer(int limit, int offset, int total, List<T> data) {
 		this.limit = limit;
 		this.offset = offset;
-		this.total = (data == null) ? 0 : data.size();
-		this.count = count;
+		this.total = total;
+		this.count = (data == null) ? 0 : data.size();
 		this.data = data;
 	}
 	public int getLimit() {
