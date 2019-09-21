@@ -2,10 +2,13 @@ package com.imarques.abelibrary.controller.v1;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.imarques.abelibrary.model.Payment;
+import com.imarques.abelibrary.model.PaymentData;
 import com.imarques.abelibrary.model.PaymentSummary;
 import com.imarques.abelibrary.service.PaymentService;
 
@@ -25,6 +28,15 @@ public class PaymentController {
 	public PaymentSummary getBasket(
 			@ApiParam(required = true, value = "Código do usuário") @PathVariable("userId") Long userId) {
 		PaymentSummary result = paymentService.calculate(userId);
+		return result;
+	}
+	
+	@ApiOperation(value = "Realiza o pagamento")
+	@RequestMapping(method=RequestMethod.PUT)
+	public Payment pay(
+			@ApiParam(required = true, value = "Código do usuário") @PathVariable("userId") Long userId,
+			@ApiParam(required = true, value = "Dados para pagamento") @RequestBody PaymentData paymentData) {
+		Payment result = paymentService.pay(userId, paymentData);
 		return result;
 	}
 }

@@ -16,7 +16,7 @@ public class BasketService {
 	private static List<Basket> baskets = new ArrayList<Basket>();
 	
 	public Basket getPendingBasket(Long userId) {
-		return getBasket(userId, BasketStatus.pending);
+		return getBasket(userId, BasketStatus.PENDING);
 	}
 	
 	private Basket getBasket(Long userId, BasketStatus status) {
@@ -29,36 +29,35 @@ public class BasketService {
 		Basket basket = new Basket();
 		basket.setId(basketId++);
 		basket.setUserId(userId);
-		basket.setStatus(BasketStatus.pending);
+		basket.setStatus(BasketStatus.PENDING);
 		baskets.add(basket);
 		return basket;
 	}
 	
-	public BasketItem addItem(Long userId, Long isbn) {
-		BasketItem item = getItemFromPendingBasket(userId, isbn);
+	public Basket addItem(Long userId, Long isbn) {
+		Basket basket = getPendingBasket(userId);
+		BasketItem item = getItemFromPendingBasket(basket, isbn);
 		if (item == null) {
 			item = new BasketItem();
 			item.setIsbn(isbn);
-			Basket basket = getPendingBasket(userId);
 			basket.getItems().add(item);
 		}
 		item.setTotal(item.getTotal()+1);
-		return item;
+		return basket;
 	}
 	
 	public void delete(Long userId, Long isbn) {
-		BasketItem item = getItemFromPendingBasket(userId, isbn);
+		Basket basket = getPendingBasket(userId);
+		BasketItem item = getItemFromPendingBasket(basket, isbn);
 		if (item != null) {
 			item.setTotal(item.getTotal()-1);
 			if (item.getTotal() <= 0) {
-				Basket basket = getPendingBasket(userId);
 				basket.getItems().remove(item);
 			}
 		}
 	}
 	
-	private BasketItem getItemFromPendingBasket(Long userId, Long isbn) {
-		Basket basket = getPendingBasket(userId);
+	private BasketItem getItemFromPendingBasket(Basket basket, Long isbn) {
 		for (BasketItem item : basket.getItems()) {
 			if (item.getIsbn().equals(isbn)) {
 				return item;

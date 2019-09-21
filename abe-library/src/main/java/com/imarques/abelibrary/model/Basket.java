@@ -10,15 +10,15 @@ import io.swagger.annotations.ApiModelProperty;
 public class Basket {
 	@ApiModel
 	public enum BasketStatus {
-		@ApiModelProperty
-		pending, 
-		@ApiModelProperty
-		payed
+		@ApiModelProperty(notes = "Pagamento pendente")
+		PENDING, 
+		@ApiModelProperty(notes = "Pagamento realizado com sucesso")
+		PAYED
 	}
 	
 	private Long id;
 	private Long userId;
-	@ApiModelProperty(dataType = "com.imarques.abelibrary.model.Basket.BasketStatus", example = "pending, payed")
+	@ApiModelProperty(dataType = "com.imarques.abelibrary.model.Basket.BasketStatus", example = "PAYED")
 	private BasketStatus status;
 	private List<BasketItem> items = new ArrayList<>();
 	
