@@ -20,7 +20,7 @@ import io.swagger.annotations.ApiParam;
 
 @RestController("CommentControllerV1")
 @RequestMapping("/v1/public/books/{isbn}/comments")
-@Api(tags = {"Comments"})
+@Api(tags = {"Books"})
 public class CommentController {
 	@Autowired
 	private CommentService commentService;

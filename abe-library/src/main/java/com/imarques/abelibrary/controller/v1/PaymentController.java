@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiParam;
 
 @RestController("PaymentControllerV1")
 @RequestMapping("/v1/public/baskets/{userId}/payment")
-@Api(tags = {"Payment"})
+@Api(tags = {"Baskets"})
 public class PaymentController {
 	@Autowired
 	private PaymentService paymentService;

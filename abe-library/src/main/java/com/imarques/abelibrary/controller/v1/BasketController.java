@@ -15,8 +15,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 @RestController("BasketControllerV1")
-@RequestMapping("/v1/public/users/{id}/baskets")
-@Api(tags = {"Basket"})
+@RequestMapping("/v1/public/baskets/{userId}")
+@Api(tags = {"Baskets"})
 public class BasketController {
 	@Autowired
 	private BasketService basketService;
@@ -24,17 +24,17 @@ public class BasketController {
 	@ApiOperation(value = "Obtém o carrinho de compras")
 	@RequestMapping(method=RequestMethod.GET)
 	public Basket getBasket(
-			@ApiParam(required = true, value = "Código do usuário") @PathVariable("id") Long id) {
-		Basket result = basketService.getPendingBasket(id);
+			@ApiParam(required = true, value = "Código do usuário") @PathVariable("userId") Long userId) {
+		Basket result = basketService.getPendingBasket(userId);
 		return result;
 	}
 	
 	@ApiOperation(value = "Adiciona um item no carrinho de compras")
 	@RequestMapping(method=RequestMethod.POST)
 	public Basket addItem(
-			@ApiParam(required = true, value = "Código do usuário") @PathVariable("id") Long id, 
+			@ApiParam(required = true, value = "Código do usuário") @PathVariable("userId") Long userId, 
 			@ApiParam(required = true, value = "isbn") @RequestBody(required = true) String isbn) {
-		Basket result = basketService.addItem(id, Long.valueOf(isbn));
+		Basket result = basketService.addItem(userId, Long.valueOf(isbn));
 		return result;
 	}
 	

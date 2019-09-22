@@ -17,8 +17,8 @@ public class Order {
 	
 	private Long id;
 	private Long basketId;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-	@ApiModelProperty(notes = "Data em que o pedido foi gerado no formato yyyy/MM/dd HH:mm:ss", example = "2019/09/21 17:08:54")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-ddTHH:mm:ssTZD")
+	@ApiModelProperty(notes = "Data em que o pedido foi gerado no formato yyyy-MM-ddTHH:mm:ssTZD", example = "2019/09/21 17:08:54")
 	private LocalDateTime date;
 	private List<OrderItem> items = new ArrayList<OrderItem>();
 	private OrderDelivery orderDelivery;
