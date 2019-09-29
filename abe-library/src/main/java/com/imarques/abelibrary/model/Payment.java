@@ -24,6 +24,7 @@ public class Payment {
 	private Long basketId;
 	@ApiModelProperty(example = "SUCCESS")
 	private PaymentStatus status;
+	private Long authorizationId;
 	private String details;
 	
 	public LocalDateTime getPaymentDate() {
@@ -61,5 +62,11 @@ public class Payment {
 	}
 	public void setDetails(String details) {
 		this.details = details;
+	}
+	public Long getAuthorizationId() {
+		return authorizationId;
+	}
+	public void setAuthorizationId(Long authorizationId) {
+		this.authorizationId = authorizationId;
 	}
 }

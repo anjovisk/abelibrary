@@ -13,9 +13,11 @@ import com.imarques.abelibrary.model.Basket;
 import com.imarques.abelibrary.model.Basket.BasketStatus;
 import com.imarques.abelibrary.model.Book;
 import com.imarques.abelibrary.model.Payment;
+import com.imarques.abelibrary.model.PaymentAuthorization;
 import com.imarques.abelibrary.model.Payment.PaymentStatus;
 import com.imarques.abelibrary.model.PaymentData;
 import com.imarques.abelibrary.model.PaymentSummary;
+import com.imarques.abelibrary.model.Transaction;
 
 @Service
 public class PaymentService {
@@ -27,6 +29,8 @@ public class PaymentService {
 	private BookService bookService;
 	@Autowired
 	private OrderService orderService;
+	@Autowired
+	private CreditCardAuthorizationService creditCardAuthorizationService;
 	
 	public PaymentSummary calculate(String username) {
 		PaymentSummary result = new PaymentSummary();
@@ -42,11 +46,22 @@ public class PaymentService {
 		payment.setPaymentData(paymentData);
 		payment.setPaymentDate(LocalDateTime.now());
 		payment.setValue(getBasketPrice(basket));
-		//TODO - Simular status do pagamento
-		payment.setStatus(PaymentStatus.SUCCESS);
-		basket.setStatus(BasketStatus.PAYED);
+		Transaction transaction = new Transaction();
+		transaction.setCreditCard(paymentData.getCreditCard());
+		transaction.setInstallments(paymentData.getInstallments());
+		transaction.setValue(getBasketPrice(basket));
+		PaymentAuthorization paymentAuthorization = creditCardAuthorizationService.authorize(transaction);
+		payment.setAuthorizationId(paymentAuthorization.getId());
+		payment.setStatus(PaymentAuthorization.AuthorizationStatus.SUCCESS.equals(paymentAuthorization.getStatus())
+				? PaymentStatus.SUCCESS
+						: PaymentStatus.ERROR);
+		basket.setStatus(PaymentAuthorization.AuthorizationStatus.SUCCESS.equals(paymentAuthorization.getStatus())
+				? BasketStatus.PAYED
+						: BasketStatus.PENDING);
 		//TODO - Utilizar messages resource
-		payment.setDetails("Pagamento efetuado com sucesso");
+		payment.setDetails(PaymentAuthorization.AuthorizationStatus.SUCCESS.equals(paymentAuthorization.getStatus())
+				? "Pagamento efetuado com sucesso"
+						: "Pagamento não autorizado pela operadora do cartão");
 		payments.add(payment);
 		orderService.create(basket, paymentData.getRecipient(), paymentData.getDeliveryAddress());
 		return payment;
