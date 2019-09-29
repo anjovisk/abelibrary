@@ -63,7 +63,9 @@ public class PaymentService {
 				? "Pagamento efetuado com sucesso"
 						: "Pagamento não autorizado pela operadora do cartão");
 		payments.add(payment);
-		orderService.create(basket, paymentData.getRecipient(), paymentData.getDeliveryAddress());
+		if (PaymentAuthorization.AuthorizationStatus.SUCCESS.equals(paymentAuthorization.getStatus())) {
+			orderService.create(basket, paymentData.getRecipient(), paymentData.getDeliveryAddress());
+		}
 		return payment;
 	}
 	
