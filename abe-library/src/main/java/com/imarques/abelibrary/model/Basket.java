@@ -17,17 +17,11 @@ public class Basket {
 	}
 	
 	private Long id;
-	private Long userId;
+	private String username;
 	@ApiModelProperty(example = "PAYED")
 	private BasketStatus status;
 	private List<BasketItem> items = new ArrayList<>();
 	
-	public Long getUserId() {
-		return userId;
-	}
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
 	public Long getId() {
 		return id;
 	}
@@ -45,5 +39,11 @@ public class Basket {
 	}
 	public void setStatus(BasketStatus status) {
 		this.status = status;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

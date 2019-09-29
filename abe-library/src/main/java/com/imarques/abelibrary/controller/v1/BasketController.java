@@ -1,12 +1,15 @@
 package com.imarques.abelibrary.controller.v1;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.imarques.abelibrary.exception.UserNotFoundException;
 import com.imarques.abelibrary.model.Basket;
 import com.imarques.abelibrary.service.BasketService;
 
@@ -15,7 +18,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 @RestController("BasketControllerV1")
-@RequestMapping("/v1/public/baskets/{userId}")
+@RequestMapping("/v1/public/baskets/{username}")
 @Api(tags = {"Baskets"})
 public class BasketController {
 	@Autowired
@@ -23,26 +26,41 @@ public class BasketController {
 	
 	@ApiOperation(value = "Obtém o carrinho de compras")
 	@RequestMapping(method=RequestMethod.GET)
-	public Basket getBasket(
-			@ApiParam(required = true, value = "Código do usuário") @PathVariable("userId") Long userId) {
-		Basket result = basketService.getPendingBasket(userId);
-		return result;
+	public ResponseEntity<Basket> getBasket(
+			@ApiParam(required = true, value = "Nickname do usuário") @PathVariable("username") String username) {
+		Basket result = null;
+		try {
+			result = basketService.getPendingBasket(username);
+		} catch (UserNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+		}
+		return ResponseEntity.accepted().body(result);
 	}
 	
 	@ApiOperation(value = "Adiciona um item no carrinho de compras")
 	@RequestMapping(method=RequestMethod.POST)
-	public Basket addItem(
-			@ApiParam(required = true, value = "Código do usuário") @PathVariable("userId") Long userId, 
+	public ResponseEntity<Basket> addItem(
+			@ApiParam(required = true, value = "Nickname do usuário") @PathVariable("username") String username, 
 			@ApiParam(required = true, value = "isbn") @RequestBody(required = true) String isbn) {
-		Basket result = basketService.addItem(userId, Long.valueOf(isbn));
-		return result;
+		Basket result = null;
+		try {
+			result = basketService.addItem(username, Long.valueOf(isbn));
+		} catch (UserNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+		}
+		return ResponseEntity.accepted().body(result);
 	}
 	
 	@ApiOperation(value = "Remove um item no carrinho de compras")
 	@RequestMapping(method=RequestMethod.DELETE)
-	public void deleteItem(
-			@ApiParam(required = true, value = "Código do usuário") @PathVariable("id") Long id, 
+	public ResponseEntity<?> deleteItem(
+			@ApiParam(required = true, value = "Nickname do usuário") @PathVariable("username") String username, 
 			@ApiParam(required = true, value = "isbn") @RequestBody(required = true) String isbn) {
-		basketService.delete(id, Long.valueOf(isbn));
+		try {
+			basketService.delete(username, Long.valueOf(isbn));
+		} catch (UserNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+		}
+		return ResponseEntity.accepted().body(null);
 	}
 }

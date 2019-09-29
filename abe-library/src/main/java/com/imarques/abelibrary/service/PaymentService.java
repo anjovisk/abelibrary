@@ -28,15 +28,15 @@ public class PaymentService {
 	@Autowired
 	private OrderService orderService;
 	
-	public PaymentSummary calculate(Long userId) {
+	public PaymentSummary calculate(String username) {
 		PaymentSummary result = new PaymentSummary();
-		result.setBasket(basketService.getPendingBasket(userId));
+		result.setBasket(basketService.getPendingBasket(username));
 		result.setPrice(getBasketPrice(result.getBasket()));
 		return result;
 	}
 	
-	public Payment pay(Long userId, PaymentData paymentData) {
-		Basket basket = basketService.getPendingBasket(userId);
+	public Payment pay(String username, PaymentData paymentData) {
+		Basket basket = basketService.getPendingBasket(username);
 		Payment payment = new Payment();
 		payment.setBasketId(basket.getId());
 		payment.setPaymentData(paymentData);

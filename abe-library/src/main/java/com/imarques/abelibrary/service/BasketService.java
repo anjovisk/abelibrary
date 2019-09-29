@@ -3,39 +3,49 @@ package com.imarques.abelibrary.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.imarques.abelibrary.model.Basket;
 import com.imarques.abelibrary.model.Basket.BasketStatus;
 import com.imarques.abelibrary.model.BasketItem;
+import com.imarques.abelibrary.model.User;
 
 @Service
 public class BasketService {
+	@Autowired
+	private UserService userService;
+	
 	private Long basketId= Long.valueOf(1);
 	
 	private static List<Basket> baskets = new ArrayList<Basket>();
 	
-	public Basket getPendingBasket(Long userId) {
-		return getBasket(userId, BasketStatus.PENDING);
+	public Basket getPendingBasket(String username) {
+		return getBasket(username, BasketStatus.PENDING);
 	}
 	
-	private Basket getBasket(Long userId, BasketStatus status) {
+	private Basket getBasket(String username, BasketStatus status) {
+		User user = userService.getUser(username);
+		Basket result = null;
 		for (Basket basket : baskets) {
-			if (basket.getUserId().equals(userId) &&
+			if (basket.getUsername().equals(user.getUsername()) &&
 					basket.getStatus().equals(status)) {
-				return basket;
+				result = basket;
+				break;
 			}
 		}
-		Basket basket = new Basket();
-		basket.setId(basketId++);
-		basket.setUserId(userId);
-		basket.setStatus(BasketStatus.PENDING);
-		baskets.add(basket);
-		return basket;
+		if (result == null) {
+			result = new Basket();
+			result.setId(basketId++);
+			result.setUsername(user.getUsername());
+			result.setStatus(BasketStatus.PENDING);
+			baskets.add(result);
+		}
+		return result;
 	}
 	
-	public Basket addItem(Long userId, Long isbn) {
-		Basket basket = getPendingBasket(userId);
+	public Basket addItem(String username, Long isbn) {
+		Basket basket = getPendingBasket(username);
 		BasketItem item = getItemFromPendingBasket(basket, isbn);
 		if (item == null) {
 			item = new BasketItem();
@@ -46,8 +56,8 @@ public class BasketService {
 		return basket;
 	}
 	
-	public void delete(Long userId, Long isbn) {
-		Basket basket = getPendingBasket(userId);
+	public void delete(String username, Long isbn) {
+		Basket basket = getPendingBasket(username);
 		BasketItem item = getItemFromPendingBasket(basket, isbn);
 		if (item != null) {
 			item.setTotal(item.getTotal()-1);
