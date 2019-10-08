@@ -28,7 +28,7 @@ public class BasketService {
 		User user = userService.getUser(username);
 		Basket result = null;
 		for (Basket basket : baskets) {
-			if (basket.getUsername().equals(user.getUsername()) &&
+			if (basket.getUsername().equals(user.getId()) &&
 					basket.getStatus().equals(status)) {
 				result = basket;
 				break;
@@ -37,7 +37,7 @@ public class BasketService {
 		if (result == null) {
 			result = new Basket();
 			result.setId(basketId++);
-			result.setUsername(user.getUsername());
+			result.setUsername(user.getId());
 			result.setStatus(BasketStatus.PENDING);
 			baskets.add(result);
 		}

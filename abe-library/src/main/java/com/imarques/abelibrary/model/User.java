@@ -1,15 +1,18 @@
 package com.imarques.abelibrary.model;
 
+import java.util.Date;
+
 public class User {
-	private String username;
+	private String id;
 	private String name;
 	private String lastname;
 	private String email;
-	public String getUsername() {
-		return username;
+	private Date dob;
+	public String getId() {
+		return id;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setId(String id) {
+		this.id = id;
 	}
 	public String getName() {
 		return name;
@@ -28,5 +31,11 @@ public class User {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public Date getDob() {
+		return dob;
+	}
+	public void setDob(Date dob) {
+		this.dob = dob;
 	}
 }
